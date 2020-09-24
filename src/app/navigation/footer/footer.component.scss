@@ -1,0 +1,16 @@
+@import "~styles.scss";
+
+#footer {
+  background-color: $purple-lt;
+  color: $purple-dk;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  a {
+    cursor: pointer;
+    color: $purple-dk;
+    &:hover {
+      @include default-transition;
+    }
+  }
+}

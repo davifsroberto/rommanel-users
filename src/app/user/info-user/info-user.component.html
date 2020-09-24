@@ -1,0 +1,178 @@
+<div>
+  <div class="col-md-10 offset-md-1">
+    <ngx-spinner
+      bdColor="rgba(0, 0, 0, 0.8)"
+      size="medium"
+      color="#ffcdf7"
+      type="pacman"
+      [fullScreen]="true"
+    >
+      <br />
+      <strong style="color: white">Processando...</strong>
+    </ngx-spinner>
+
+    <div class="container bootstrap snippets bootdey">
+      <h3 class="my-4">{{ user.name }}</h3>
+
+      <div class="panel-body inf-content">
+        <div class="row text-center">
+          <div class="col-md-4">
+            <img
+              [alt]="user.name"
+              [src]="img + 'generic-user.png'"
+              class="img-circle img-thumbnail isTooltip"
+            />
+            <div class="my-3">
+              <a
+                class="btn {{ btnClass }}"
+                href="javascript:void(0)"
+                (click)="optionEvent(user.id)"
+                >{{ optionText }}</a
+              >&nbsp;
+              <a class="btn btn-info" [routerLink]="['/users/list']">Voltar</a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <strong>Detalhes</strong><br />
+            <div class="table-responsive">
+              <table class="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>
+                        <span
+                          class="glyphicon glyphicon-asterisk text-primary"
+                        ></span>
+                        CPF
+                      </strong>
+                    </td>
+                    <td class="text-primary">{{ user.document | cpf }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>
+                        <span
+                          class="glyphicon glyphicon-user text-primary"
+                        ></span>
+                        Nome
+                      </strong>
+                    </td>
+                    <td class="text-primary">{{ user.name }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong>
+                        <span
+                          class="glyphicon glyphicon-bookmark text-primary"
+                        ></span>
+                        E-mail
+                      </strong>
+                    </td>
+                    <td class="text-primary">
+                      <a href="mailto:{{ user.email }}" target="_blank">{{
+                        user.email
+                      }}</a>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong>
+                        <span
+                          class="glyphicon glyphicon-eye-open text-primary"
+                        ></span>
+                        Nascimento
+                      </strong>
+                    </td>
+                    <td class="text-primary">
+                      {{ user.birthDate | date: "dd/MM/yyyy" }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>
+                        <span
+                          class="glyphicon glyphicon-envelope text-primary"
+                        ></span>
+                        Status
+                      </strong>
+                    </td>
+                    <td class="text-primary">
+                      {{ user.active === true ? "Ativo" : "Inativo" }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mt-5">
+          <div>
+            <hr />
+            <h4>Endereço</h4>
+          </div>
+
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>Logradouro</th>
+                <th>Numero</th>
+                <th>Complemento</th>
+                <th>Bairro</th>
+                <th>Cep</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>
+                  {{ address.street }}
+                </td>
+                <td>
+                  {{ address.number }}
+                </td>
+                <td>
+                  {{ address.additionalDetails }}
+                </td>
+                <td>
+                  {{ address.neighborhood }}
+                </td>
+                <td>
+                  {{ address.zipCode | cep }}
+                </td>
+                <td>
+                  {{ address.city }}
+                </td>
+                <td>
+                  {{ address.state }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <iframe
+          width="100%"
+          height="450"
+          frameborder="0"
+          style="border: 0; padding-bottom: 50px"
+          [src]="addressMap"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+
+// Mixins
+@mixin default-transition {
+  transition: 0.5s ease-out;
+  -webkit-transition: 0.5s ease-out;
+  -o-transition: 0.5s ease-out;
+  -moz-transition: 0.5s ease-out;
+  -ms-transition: 0.5s ease-out;
+}
+
+// Colors
+$purple: #51334e;
+$purple-lt: #7f5176;
+$purple-dk: #4a2043;
+$gray: #888;
+$dk: #111;
+$lt: #ffcdf7;
+$wt: #fff;
+$bg: #fff6ff;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+strong,
+p,
+a,
+li,
+input,
+button {
+  font-family: "Montserrat" !important;
+}
+
+html body {
+  background-color: $bg;
+  margin-bottom: 5em;
+}

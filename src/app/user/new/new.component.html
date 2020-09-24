@@ -1,0 +1,268 @@
+<main role="main">
+  <article id="new" class="pt-3">
+    <div class="container main-container">
+      <h3 class="text-center">Cadastrar Usuário</h3>
+      <hr />
+
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <form
+            novalidate="novalidate"
+            (ngSubmit)="newUser()"
+            [formGroup]="userForm"
+          >
+            <div class="form-group">
+              <label class="control-label">Nome</label>
+              <div>
+                <input
+                  class="form-control"
+                  id="name"
+                  type="text"
+                  placeholder="Nome (requerido)"
+                  formControlName="name"
+                  [ngClass]="{ 'is-invalid': displayMessage.name }"
+                />
+                <span class="text-danger" *ngIf="displayMessage.name">
+                  <p [innerHTML]="displayMessage.name"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">E-mail</label>
+              <div>
+                <input
+                  class="form-control"
+                  id="email"
+                  type="text"
+                  placeholder="E-mail (requerido)"
+                  formControlName="email"
+                  [ngClass]="{ 'is-invalid': displayMessage.email }"
+                />
+
+                <span class="text-danger" *ngIf="displayMessage.email">
+                  <p [innerHTML]="displayMessage.email"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">Data de Nascimento</label>
+              <div>
+                <input
+                  class="form-control"
+                  id="birthDate"
+                  type="text"
+                  placeholder="Data Nasc. (requerido)"
+                  formControlName="birthDate"
+                  [textMask]="{ mask: MASKS.data.textMask }"
+                  [ngClass]="{ 'is-invalid': displayMessage.birthDate }"
+                />
+
+                <span class="text-danger" *ngIf="displayMessage.birthDate">
+                  <p [innerHTML]="displayMessage.birthDate"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">Documento</label>
+              <div>
+                <input
+                  class="form-control"
+                  id="document"
+                  type="text"
+                  placeholder="CPF (requerido)"
+                  formControlName="document"
+                  [textMask]="{ mask: MASKS.cpf.textMask }"
+                  [ngClass]="{ 'is-invalid': displayMessage.document }"
+                />
+
+                <span class="text-danger" *ngIf="displayMessage.document">
+                  <p [innerHTML]="displayMessage.document"></p>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group form-check">
+              <label class="form-check-label">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="active"
+                  formControlName="active"
+                  value="true"
+                  name="active"
+                />
+                Ativo?
+              </label>
+            </div>
+
+            <h4>Endereço</h4>
+            <hr />
+            <div formGroupName="address">
+              <div class="form-group">
+                <label class="control-label">CEP</label>
+                <div>
+                  <input
+                    class="form-control"
+                    id="zipCode"
+                    type="text"
+                    placeholder="CEP (requerido)"
+                    (blur)="getZipCode($event.target.value)"
+                    formControlName="zipCode"
+                    [ngClass]="{ 'is-invalid': displayMessage.zipCode }"
+                    [textMask]="{ mask: MASKS.cep.textMask }"
+                    cep
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.zipCode">
+                    <p [innerHTML]="displayMessage.zipCode"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Logradouro</label>
+                <div>
+                  <input
+                    class="form-control"
+                    id="street"
+                    type="text"
+                    placeholder="Logradouro (requerido)"
+                    formControlName="street"
+                    [ngClass]="{ 'is-invalid': displayMessage.street }"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.street">
+                    <p [innerHTML]="displayMessage.street"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Número</label>
+                <div>
+                  <input
+                    class="form-control"
+                    id="number"
+                    type="text"
+                    placeholder="Número (requerido)"
+                    formControlName="number"
+                    [ngClass]="{ 'is-invalid': displayMessage.number }"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.number">
+                    <p [innerHTML]="displayMessage.number"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Complemento</label>
+                <div>
+                  <input
+                    class="form-control"
+                    id="additionalDetails"
+                    type="text"
+                    placeholder="Complemento"
+                    formControlName="additionalDetails"
+                    [ngClass]="{
+                      'is-invalid': displayMessage.additionalDetails
+                    }"
+                  />
+                  <span
+                    class="text-danger"
+                    *ngIf="displayMessage.additionalDetails"
+                  >
+                    <p [innerHTML]="displayMessage.additionalDetails"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Bairro</label>
+                <div>
+                  <input
+                    class="form-control"
+                    id="neighborhood"
+                    type="text"
+                    placeholder="Bairro (requerido)"
+                    formControlName="neighborhood"
+                    [ngClass]="{ 'is-invalid': displayMessage.neighborhood }"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.neighborhood">
+                    <p [innerHTML]="displayMessage.neighborhood"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Cidade</label>
+                <div>
+                  <input
+                    class="form-control"
+                    id="city"
+                    type="text"
+                    placeholder="Cidade (requerido)"
+                    formControlName="city"
+                    [ngClass]="{ 'is-invalid': displayMessage.city }"
+                  />
+                  <span class="text-danger" *ngIf="displayMessage.city">
+                    <p [innerHTML]="displayMessage.city"></p>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label">Estado</label>
+                <div>
+                  <select
+                    class="form-control"
+                    id="state"
+                    formControlName="state"
+                    [ngClass]="{ 'is-invalid': displayMessage.state }"
+                  >
+                    <option value="">Estado</option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espírito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                  </select>
+                  <span class="text-danger" *ngIf="displayMessage.state">
+                    <p [innerHTML]="displayMessage.state"></p>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input
+                [disabled]="!userForm.valid"
+                type="submit"
+                value="Register"
+                id="newUser"
+                class="btn btn-primary"
+              />&nbsp;
+              <a class="btn btn-info" [routerLink]="['/users/list']">Voltar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </article>
+</main>

@@ -1,0 +1,32 @@
+<article id="menu">
+  <header>
+    <nav class="navbar navbar-expand-md">
+      <a [routerLink]="['/home']">
+        <img [src]="img + 'logo.png'" alt="Rommanel" />
+      </a>
+      <button
+        (click)="isCollapsed = !isCollapsed"
+        type="button"
+        class="navbar-toggler navbar-dark"
+        data-toggle="collapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <section
+        [ngbCollapse]="isCollapsed"
+        class="collapse navbar-collapse text-center ml-5"
+      >
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a [routerLink]="['/home']" class="nav-link">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a [routerLink]="['/users/list']" class="nav-link">Usuários</a>
+          </li>
+        </ul>
+      </section>
+    </nav>
+  </header>
+</article>

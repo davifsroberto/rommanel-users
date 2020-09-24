@@ -1,0 +1,9 @@
+<article id="delete">
+  <app-info-user
+    (notifyParent)="deleteUser($event)"
+    [optionText]="'Excluir'"
+    [btnClass]="'btn-danger'"
+    [user]="this.route.snapshot.data.user"
+    [address]="this.route.snapshot.data.user.address[0]"
+  ></app-info-user>
+</article>
