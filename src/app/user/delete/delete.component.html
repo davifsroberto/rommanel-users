@@ -1,5 +1,6 @@
 <article id="delete">
   <app-info-user
+    [optionalTitle]="' - Deseja realmente excluí-lo?'"
     (notifyParent)="deleteUser($event)"
     [optionText]="'Excluir'"
     [btnClass]="'btn-danger'"

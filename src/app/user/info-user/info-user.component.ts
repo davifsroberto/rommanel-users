@@ -34,6 +34,9 @@ export class InfoUserComponent {
   optionText: string;
 
   @Input()
+  optionalTitle: string;
+
+  @Input()
   btnClass: string;
 
   @Input()
