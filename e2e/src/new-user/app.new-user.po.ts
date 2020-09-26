@@ -11,7 +11,7 @@ export class AppUserPage extends AppBasePage {
   }
 
   navigateToNewUser() {
-    this.navigateByLink('Novo usuário');
+    this.navigateByLink('Cadastrar Usuário');
   }
 
   initNavigation() {

@@ -1,0 +1,59 @@
+@import "~styles.scss";
+
+#info-user {
+  .address-table {
+    @media only screen and (max-width: 768px) {
+      tr {
+        margin: 0 0 1rem 0;
+
+        background-color: $purple-lt;
+        a.btn {
+          background-color: $purple-dk;
+          color: $bg;
+          border: $borderDefault $purple-dk;
+          @include default-transition;
+          &:hover {
+            @include default-transition;
+            background-color: transparent;
+            border: $borderDefault $bg;
+          }
+        }
+        &:hover {
+          background-color: $purple-lt;
+        }
+
+        td {
+          color: $wt;
+        }
+      }
+
+      td {
+        &:last-of-type {
+          border: none;
+        }
+      }
+
+      td:nth-of-type(1):before {
+        content: "Logradouro:";
+      }
+      td:nth-of-type(2):before {
+        content: "Numero:";
+      }
+      td:nth-of-type(3):before {
+        content: "Complemento:";
+      }
+      td:nth-of-type(4):before {
+        content: "Bairro:";
+      }
+      td:nth-of-type(5):before {
+        content: "CEP:";
+      }
+      td:nth-of-type(6):before {
+        content: "Cidade:";
+      }
+      td:nth-of-type(7):before {
+        content: "Estado:";
+      }
+    }
+  }
+}

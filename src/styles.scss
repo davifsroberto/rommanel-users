@@ -9,6 +9,36 @@
   -ms-transition: 0.5s ease-out;
 }
 
+@mixin btn-purple-lt-reverse {
+  background-color: transparent;
+  border: $borderDefault $purple-lt;
+  color: $purple-lt;
+  @include default-transition;
+}
+
+@mixin btn-purple-lt {
+  background-color: $purple-lt;
+  color: $bg;
+  border: $borderDefault $purple-lt;
+  @include default-transition;
+}
+
+@mixin btn-purple-dk {
+  background-color: $purple-dk;
+  color: $bg;
+  border: $borderDefault $purple-dk;
+  @include default-transition;
+  &:hover {
+    background-color: transparent;
+    border: $borderDefault $purple-dk;
+    @include default-transition;
+  }
+}
+// Vars
+
+// General
+$borderDefault: 1px solid;
+
 // Colors
 $purple: #51334e;
 $purple-lt: #7f5176;
@@ -34,7 +64,80 @@ button {
   font-family: "Montserrat" !important;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $purple-dk;
+}
+
 html body {
   background-color: $bg;
   margin-bottom: 5em;
+}
+
+.btn.btn-purple-lt {
+  @include btn-purple-lt;
+  &:hover {
+    @include btn-purple-lt-reverse;
+    &:disabled {
+      @include btn-purple-lt;
+    }
+  }
+}
+
+.btn.btn-purple-lt-reverse {
+  @include btn-purple-lt-reverse;
+  &:hover {
+    @include btn-purple-lt;
+    &:disabled {
+      @include btn-purple-lt-reverse;
+    }
+  }
+}
+
+.table-purple {
+  thead {
+    tr {
+      background-color: $purple-dk;
+      color: $wt;
+      &:hover {
+        background-color: $purple-dk;
+      }
+    }
+  }
+
+  td {
+    border: none;
+    border-bottom: $borderDefault #eee;
+    position: relative;
+    &:before {
+      padding-right: 7px;
+      font-weight: bold;
+    }
+    span {
+      float: right;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  }
 }

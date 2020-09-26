@@ -1,4 +1,4 @@
-<div>
+<article id="info-user">
   <div class="col-md-10 offset-md-1">
     <ngx-spinner
       bdColor="rgba(0, 0, 0, 0.8)"
@@ -12,7 +12,10 @@
     </ngx-spinner>
 
     <div class="container bootstrap snippets bootdey">
-      <h3 class="my-4">{{ user.name }} {{ optionalTitle }}</h3>
+      <h4 class="mt-4">
+        Usuário: <strong>{{ user.name }}</strong>
+      </h4>
+      <h5 class="mb-4 mt-3">{{ optionalTitle }}</h5>
 
       <div class="panel-body inf-content">
         <div class="row text-center">
@@ -24,12 +27,16 @@
             />
             <div class="my-3">
               <a
-                class="btn {{ btnClass }}"
+                class="btn btn-purple-lt-reverse"
                 href="javascript:void(0)"
                 (click)="optionEvent(user.id)"
                 >{{ optionText }}</a
               >&nbsp;
-              <a class="btn btn-info" [routerLink]="['/users/list']">Voltar</a>
+              <a
+                class="btn btn-purple-lt-reverse"
+                [routerLink]="['/users/list']"
+                >Voltar</a
+              >
             </div>
           </div>
           <div class="col-md-6">
@@ -110,54 +117,55 @@
       </div>
     </div>
   </div>
-  <div class="container mt-4">
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <div class="mt-5">
+        <div class="mt-4">
           <div>
             <hr />
             <h4>Endereço</h4>
           </div>
+          <section class="table-responsive address-table">
+            <table role="table" class="table table-hover table-purple">
+              <thead role="rowgroup">
+                <tr>
+                  <th role="columnheader">Logradouro</th>
+                  <th role="columnheader">Numero</th>
+                  <th role="columnheader">Complemento</th>
+                  <th role="columnheader">Bairro</th>
+                  <th role="columnheader">Cep</th>
+                  <th role="columnheader">Cidade</th>
+                  <th role="columnheader">Estado</th>
+                </tr>
+              </thead>
 
-          <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th>Logradouro</th>
-                <th>Numero</th>
-                <th>Complemento</th>
-                <th>Bairro</th>
-                <th>Cep</th>
-                <th>Cidade</th>
-                <th>Estado</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td>
-                  {{ address.street }}
-                </td>
-                <td>
-                  {{ address.number }}
-                </td>
-                <td>
-                  {{ address.additionalDetails }}
-                </td>
-                <td>
-                  {{ address.neighborhood }}
-                </td>
-                <td>
-                  {{ address.zipCode | cep }}
-                </td>
-                <td>
-                  {{ address.city }}
-                </td>
-                <td>
-                  {{ address.state }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              <tbody role="rowgroup">
+                <tr role="row">
+                  <td role="cell">
+                    {{ address.street }}
+                  </td>
+                  <td role="cell">
+                    {{ address.number }}
+                  </td>
+                  <td role="cell">
+                    {{ address.additionalDetails }}
+                  </td>
+                  <td role="cell">
+                    {{ address.neighborhood }}
+                  </td>
+                  <td role="cell">
+                    {{ address.zipCode | cep }}
+                  </td>
+                  <td role="cell">
+                    {{ address.city }}
+                  </td>
+                  <td role="cell">
+                    {{ address.state }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
         </div>
       </div>
     </div>
@@ -175,4 +183,4 @@
       </div>
     </div>
   </div>
-</div>
+</article>

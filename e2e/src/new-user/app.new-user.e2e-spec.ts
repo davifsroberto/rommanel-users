@@ -10,7 +10,7 @@ describe('Testes do formulario de cadastro', () => {
 
   it('deve navegar até usuários', () => {
     page.initNavigation();
-    expect(page.getTitleUsers()).toEqual('Lista de usuários');
+    expect(page.getTitleUsers()).toEqual('Lista de Usuários');
   });
 
   it('deve preencher formulário de usuários com sucesso', () => {
@@ -35,7 +35,7 @@ describe('Testes do formulario de cadastro', () => {
 
     page.wait(3000);
 
-    expect(page.getTitleUsers()).toEqual('Lista de usuários');
+    expect(page.getTitleUsers()).toEqual('Lista de Usuários');
   });
 
   afterEach(async () => {

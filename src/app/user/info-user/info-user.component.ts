@@ -11,6 +11,7 @@ import { User } from '../models/user.model';
 @Component({
   selector: 'app-info-user',
   templateUrl: './info-user.component.html',
+  styleUrls: ['./info-user.component.scss'],
 })
 export class InfoUserComponent {
   img: string = environment.imagesLocal;
@@ -35,9 +36,6 @@ export class InfoUserComponent {
 
   @Input()
   optionalTitle: string;
-
-  @Input()
-  btnClass: string;
 
   @Input()
   user: User;

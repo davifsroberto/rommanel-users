@@ -114,10 +114,14 @@
               <input
                 [disabled]="!userForm.valid"
                 type="submit"
-                value="Edit"
-                class="btn btn-primary"
+                value="Editar"
+                class="btn btn-purple-lt-reverse"
               />&nbsp;
-              <a class="btn btn-info" [routerLink]="['/users/list']">Voltar</a>
+              <a
+                class="btn btn-purple-lt-reverse"
+                [routerLink]="['/users/list']"
+                >Voltar</a
+              >
             </div>
           </div>
         </div>
@@ -130,55 +134,57 @@
                 <h4>Endereço</h4>
               </div>
 
-              <table class="table table-hover">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>Logradouro</th>
-                    <th>Numero</th>
-                    <th>Complemento</th>
-                    <th>Bairro</th>
-                    <th>Cep</th>
-                    <th>Cidade</th>
-                    <th>Estado</th>
-                    <th></th>
-                  </tr>
-                </thead>
+              <section class="table-responsive">
+                <table role="table" class="table table-hover table-purple">
+                  <thead role="rowgroup">
+                    <tr>
+                      <th role="columnheader">Logradouro</th>
+                      <th role="columnheader">Numero</th>
+                      <th role="columnheader">Complemento</th>
+                      <th role="columnheader">Bairro</th>
+                      <th role="columnheader">CEP</th>
+                      <th role="columnheader">Cidade</th>
+                      <th role="columnheader">Estado</th>
+                      <th role="columnheader"></th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  <tr>
-                    <td>
-                      {{ addressUser.street }}
-                    </td>
-                    <td>
-                      {{ addressUser.number }}
-                    </td>
-                    <td>
-                      {{ addressUser.additionalDetails }}
-                    </td>
-                    <td>
-                      {{ addressUser.neighborhood }}
-                    </td>
-                    <td>
-                      {{ addressUser.zipCode | cep }}
-                    </td>
-                    <td>
-                      {{ addressUser.city }}
-                    </td>
-                    <td>
-                      {{ addressUser.state }}
-                    </td>
-                    <td>
-                      <a
-                        class="btn btn-info"
-                        href="javascript:void(0)"
-                        (click)="showModal(content)"
-                      >
-                        <span title="Editar" class="fa fa-pencil-alt"></span>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                  <tbody role="rowgroup">
+                    <tr role="row">
+                      <td role="cell">
+                        {{ addressUser.street }}
+                      </td>
+                      <td role="cell">
+                        {{ addressUser.number }}
+                      </td>
+                      <td role="cell">
+                        {{ addressUser.additionalDetails }}
+                      </td>
+                      <td role="cell">
+                        {{ addressUser.neighborhood }}
+                      </td>
+                      <td role="cell">
+                        {{ addressUser.zipCode | cep }}
+                      </td>
+                      <td role="cell">
+                        {{ addressUser.city }}
+                      </td>
+                      <td role="cell">
+                        {{ addressUser.state }}
+                      </td>
+                      <td role="cell" class="text-center">
+                        <a
+                          class="btn btn-purple-lt"
+                          href="javascript:void(0)"
+                          (click)="showModal(content)"
+                        >
+                          <span title="Editar" class="fa fa-pencil-alt"></span>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
             </div>
           </div>
         </div>
@@ -363,8 +369,8 @@
             <input
               [disabled]="!addressForm.valid"
               type="submit"
-              value="Update"
-              class="btn btn-primary"
+              value="Atualizar"
+              class="btn btn-purple-lt"
             />
           </div>
         </form>

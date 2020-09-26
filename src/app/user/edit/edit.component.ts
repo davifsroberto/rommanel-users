@@ -29,6 +29,7 @@ import { UserBaseComponent } from '../user-form.base.component';
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
+  styleUrls: ['./edit.component.scss'],
 })
 export class EditComponent
   extends UserBaseComponent
