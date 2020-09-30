@@ -4,8 +4,8 @@
   "theme_color": "#7f5176",
   "background_color": "#fff6ff",
   "display": "standalone",
-  "scope": "/",
-  "start_url": "https://davifsroberto.com/rommanel-users/",
+  "scope": ".",
+  "start_url": "./",
   "icons": [
     {
       "src": "https://davifsroberto.com/assets/icons/icon-192x192.png",
