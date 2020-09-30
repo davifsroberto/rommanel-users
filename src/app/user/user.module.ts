@@ -10,7 +10,9 @@ registerLocaleData(localePt, 'pt');
 import { NgBrazil } from 'ng-brazil';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxIndexedDBModule } from 'ngx-indexed-db';
 
+import { IndexedDB } from '@app/utils/indexed-db';
 import { UserService } from './services/user.service';
 import { UserResolve } from './services/user.resolve';
 import { UserRoutingModule } from './user.route';
@@ -42,6 +44,7 @@ import { InfoUserComponent } from './info-user/info-user.component';
     TextMaskModule,
     NgxSpinnerModule,
     HttpClientModule,
+    NgxIndexedDBModule.forRoot(IndexedDB.userDb()),
   ],
   providers: [
     UserGuard,

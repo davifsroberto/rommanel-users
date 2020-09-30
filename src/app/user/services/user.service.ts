@@ -4,14 +4,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
+import { NgxIndexedDBService } from 'ngx-indexed-db';
+
 import { BaseService } from '../../services/base.service';
 import { Address, CepConsult } from '../models/address.model';
 import { User } from '../models/user.model';
 
 @Injectable()
 export class UserService extends BaseService {
-  constructor(private http: HttpClient) {
-    super();
+  constructor(
+    private http: HttpClient,
+    protected dbService: NgxIndexedDBService
+  ) {
+    super(dbService);
+
+    this.listenStatusConection();
   }
 
   getUsers(): Observable<User[]> {
@@ -26,7 +33,7 @@ export class UserService extends BaseService {
       .pipe(catchError(super.serviceError));
   }
 
-  postUser(user: User): any {
+  private postUserApi(user: User): any {
     return this.http
       .post(`${this.UrlServiceV1}users`, user, this.GetHeaderJson())
       .pipe(
@@ -36,6 +43,16 @@ export class UserService extends BaseService {
           this.postAddress(user.address);
         })
       );
+  }
+
+  postAddress(address: Address): void {
+    this.http
+      .post(
+        `${this.UrlServiceV1}users/${address.userId}/address`,
+        address,
+        this.GetHeaderJson()
+      )
+      .subscribe();
   }
 
   putUser(user: User): Observable<User> {
@@ -60,14 +77,26 @@ export class UserService extends BaseService {
       .pipe(map(super.extractData), catchError(super.serviceError));
   }
 
-  postAddress(address: Address): void {
-    this.http
-      .post(
-        `${this.UrlServiceV1}users/${address.userId}/address`,
-        address,
-        this.GetHeaderJson()
-      )
-      .subscribe();
+  private postUserIdbToApi(): any {
+    this.dbService.getAll('users').subscribe((users) => {
+      users.map((user) => {
+        this.postUserApi(user).subscribe();
+      }, this.dbService.clear('users').subscribe());
+    });
+  }
+
+  postUser(user: User): Observable<User> {
+    if (super.isOnline) {
+      return this.postUserApi(user);
+    } else {
+      return super.postIndexedDB(user, 'users');
+    }
+  }
+
+  private listenStatusConection(): void {
+    super.statusConection.subscribe((online) => {
+      if (online) this.postUserIdbToApi();
+    });
   }
 
   consultCep(cep: string): Observable<CepConsult> {

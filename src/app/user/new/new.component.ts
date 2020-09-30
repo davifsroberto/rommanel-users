@@ -24,7 +24,6 @@ import { User } from '../models/user.model';
 export class NewComponent
   extends UserBaseComponent
   implements OnInit, AfterViewInit {
-  errors: any[] = [];
   userForm: FormGroup;
   user: User = new User();
 

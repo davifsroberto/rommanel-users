@@ -1,0 +1,54 @@
+{
+  "name": "Rommanel Users",
+  "short_name": "Rommanel",
+  "theme_color": "#7f5176",
+  "background_color": "#fff6ff",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "https://davifsroberto.com/rommanel-users/",
+  "icons": [
+    {
+      "src": "https://davifsroberto.com/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://davifsroberto.com/assets/icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "https://davifsroberto.com/assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "https://davifsroberto.com/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "lang": "Portuguese",
+  "screenshots": [
+    {
+      "src": "https://davifsroberto.com/assets/screenshot/home.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    },
+    {
+      "src": "https://davifsroberto.com/assets/screenshot/home-M.png",
+      "sizes": "750x1334",
+      "type": "image/png"
+    },
+    {
+      "src": "https://davifsroberto.com/assets/screenshot/users.png",
+      "sizes": "1280x800",
+      "type": "image/png"
+    },
+    {
+      "src": "https://davifsroberto.com/assets/screenshot/users-M.png",
+      "sizes": "750x1334",
+      "type": "image/png"
+    }
+  ]
+}

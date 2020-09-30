@@ -26,6 +26,18 @@
             <a [routerLink]="['/users/list']" class="nav-link">Usuários</a>
           </li>
         </ul>
+
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <button
+              (click)="addToHomeScreen()"
+              *ngIf="showButton"
+              class="btn btn-purple-lt-reverse text-white"
+            >
+              Instalar
+            </button>
+          </li>
+        </ul>
       </section>
     </nav>
   </header>

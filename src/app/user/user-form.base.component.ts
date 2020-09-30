@@ -1,9 +1,9 @@
 import { FormBaseComponent } from '../base-components/form-base.component';
 import { FormGroup, FormControlName } from '@angular/forms';
-
 import { Directive, ElementRef, ViewChildren } from '@angular/core';
-import { StringUtils } from '../utils/string-utils';
+
 import { UserService } from './services/user.service';
+import { StringUtils } from '../utils/string-utils';
 import { CepConsult } from './models/address.model';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -111,11 +111,21 @@ export class UserBaseComponent extends FormBaseComponent {
 
     this.changesNotSave = false;
 
-    let toast = this.toastr.success(`Usuário ${status}!`, 'Sucesso!', {
-      timeOut: 2000,
-      progressBar: true,
-      progressAnimation: 'decreasing',
-    });
+    let messageStatus: string = '';
+
+    navigator.onLine
+      ? (messageStatus = '')
+      : (messageStatus = ' - salvo offline até se conectar');
+
+    let toast = this.toastr.success(
+      `Usuário ${status}${messageStatus}!`,
+      'Sucesso!',
+      {
+        timeOut: 2000,
+        progressBar: true,
+        progressAnimation: 'decreasing',
+      }
+    );
 
     if (toast) {
       toast.onHidden.subscribe(() => {
@@ -125,7 +135,7 @@ export class UserBaseComponent extends FormBaseComponent {
   }
 
   protected processaFail(fail: any) {
-    this.errors = fail.error.errors;
+    this.errors = fail;
     this.toastr.error('Ocorreu um erro!', 'Opa :(');
   }
 }
