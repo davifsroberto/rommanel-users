@@ -1,4 +1,4 @@
-# RommanelUsers
+# Rommanel Users - Frontend:
 
 ## Development server
 
@@ -18,4 +18,4 @@ Execute `ng e2e` para executar os testes de ponta a ponta via [Protractor]
 
 ## Info:
 
-Projeto publicado em: http://davifsroberto.com/rommanel-users/
+Projeto publicado em: https://davifsroberto.com/rommanel-users/
