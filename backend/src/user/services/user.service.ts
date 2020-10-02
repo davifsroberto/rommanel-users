@@ -9,6 +9,11 @@ import { Address } from '../models/address.model';
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  /*
+    TODO:
+      - implementar 'try cath' usando boas práticas
+      - Criar BaseController
+  */
 
   async getUsers() {
     return await this.userModel.find().exec();
