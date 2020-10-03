@@ -1,6 +1,6 @@
 {
   "name": "rommanel-users",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,8 +8,25 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "dev:ssr": "ng run rommanel-users:serve-ssr",
+    "serve:ssr": "node dist/rommanel-users/server/main.js",
+    "build:ssr": "ng build --prod && ng run rommanel-users:server:production",
+    "prerender": "ng run rommanel-users:prerender",
     "pretty": "prettier --write \"./**/*.{js,jsx,json,ts,css,html}\""
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davifsroberto/rommanel-users/tree/master/frontend"
+  },
+  "author": {
+    "name": "Davi Roberto",
+    "nickname": "davifsroberto",
+    "email": "davifsroberto@outlook.com",
+    "url": "http://davifsroberto.com/",
+    "github": "https://github.com/davifsroberto/"
+  },
+  "license": "ISC",
+  "homepage": "https://github.com/davifsroberto/rommanel-users/tree/master/frontend#readme",
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.1.1",
@@ -20,15 +37,20 @@
     "@angular/localize": "~10.1.1",
     "@angular/platform-browser": "~10.1.1",
     "@angular/platform-browser-dynamic": "~10.1.1",
+    "@angular/platform-server": "^10.1.4",
     "@angular/router": "~10.1.1",
     "@angular/service-worker": "~10.1.1",
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "@nguniversal/builders": "^10.1.0",
+    "@nguniversal/express-engine": "^10.1.0",
+    "@types/express": "^4.17.8",
     "angular2-text-mask": "^9.0.0",
     "bootstrap": "^4.5.0",
     "dexie": "^3.0.2",
     "dexie-observable": "^3.0.0-beta.7",
     "dexie-syncable": "^3.0.0-beta.7",
+    "express": "^4.17.1",
     "ng-brazil": "^2.0.10",
     "ngx-custom-validators": "^9.1.0",
     "ngx-indexed-db": "^6.0.5",

@@ -9,6 +9,7 @@ environment.prod.ts
 /tmp
 /out-tsc
 debug.log
+package-lock.json
 
 # Only exists if Bazel was run
 /bazel-out
