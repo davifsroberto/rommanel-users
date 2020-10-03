@@ -34,8 +34,9 @@ export class UserService {
     return this.getUser(id);
   }
 
-  async deleteUser(id: string) {
-    return await this.userModel.deleteOne({ _id: id }).exec();
+  async deleteUser(id: string): Promise<object> {
+    await this.userModel.deleteOne({ _id: id }).exec();
+    return { _id: id };
   }
 
   async putAddress(userId: string, address: Address): Promise<any> {

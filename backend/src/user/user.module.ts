@@ -16,7 +16,7 @@ import { UsersController } from './controllers/users.controller';
       },
       {
         name: 'Address',
-        schema: AdressSchema
+        schema: AdressSchema,
       },
     ]),
   ],
