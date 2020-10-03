@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
+
+import { Subscription } from 'rxjs';
 
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 import { UserService } from '../services/user.service';
 
@@ -10,8 +12,8 @@ import { UserService } from '../services/user.service';
   selector: 'app-delete',
   templateUrl: './delete.component.html',
 })
-export class DeleteComponent {
-  errors: any[] = [];
+export class DeleteComponent implements OnDestroy {
+  private subscriptions = new Subscription();
 
   constructor(
     private userService: UserService,
@@ -27,18 +29,20 @@ export class DeleteComponent {
     }, 750);
   }
 
-  deleteUser(eventId: any) {
-    this.userService.deleteUser(eventId).subscribe(
-      (sucess) => {
-        this.processSuccessDelete(sucess);
-      },
-      (fail) => {
-        this.processaFailDelete(fail);
-      }
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  deleteUser(eventId: string) {
+    this.subscriptions.add(
+      this.userService.deleteUser(eventId).subscribe(
+        () => this.processSuccessDelete(),
+        () => this.processaFailDelete()
+      )
     );
   }
 
-  processSuccessDelete(event: any) {
+  processSuccessDelete() {
     const toast = this.toastr.success(
       'Usuário excluido com sucesso!',
       'Sucesso!',
@@ -50,14 +54,15 @@ export class DeleteComponent {
     );
 
     if (toast) {
-      toast.onHidden.subscribe(() => {
-        this.router.navigate(['/users/list']);
-      });
+      this.subscriptions.add(
+        toast.onHidden.subscribe(() => {
+          this.router.navigate(['/users/list']);
+        })
+      );
     }
   }
 
-  processaFailDelete(fail) {
-    this.errors = fail.error.errors;
+  processaFailDelete() {
     this.toastr.error('Houve um erro no processamento!', 'Ops! :(');
   }
 }

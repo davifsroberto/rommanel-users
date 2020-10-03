@@ -1,15 +1,20 @@
-import { FormBaseComponent } from '../base-components/form-base.component';
 import { FormGroup, FormControlName } from '@angular/forms';
-import { Directive, ElementRef, ViewChildren } from '@angular/core';
-
-import { UserService } from './services/user.service';
-import { StringUtils } from '../utils/string-utils';
-import { CepConsult } from './models/address.model';
+import { Directive, ElementRef, OnDestroy, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { Subscription } from 'rxjs';
+
 import { ToastrService } from 'ngx-toastr';
 
+import { UserService } from './services/user.service';
+import { CepConsult } from './models/address.model';
+import { FormBaseComponent } from '../base-components/form-base.component';
+import { StringUtils } from '../utils/string-utils';
+
 @Directive()
-export class UserBaseComponent extends FormBaseComponent {
+export class UserBaseComponent extends FormBaseComponent implements OnDestroy {
+  protected subscriptions = new Subscription();
+
   @ViewChildren(FormControlName, { read: ElementRef })
   formInputElements: ElementRef[];
 
@@ -62,6 +67,10 @@ export class UserBaseComponent extends FormBaseComponent {
     super.configMessagesValidationBase(messages);
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   protected validationFormUserBase(userForm: FormGroup) {
     super.configValidationFormBase(this.formInputElements, userForm);
     super.validationForm(userForm);
@@ -73,9 +82,11 @@ export class UserBaseComponent extends FormBaseComponent {
     zipCode = StringUtils.justNumbers(zipCode);
     if (zipCode.length < 8) return;
 
-    this.userService.consultCep(zipCode).subscribe(
-      (cepReturn) => this.fillAddressConsult(cepReturn, userForm),
-      (erro) => this.errors.push(erro)
+    this.subscriptions.add(
+      this.userService.consultCep(zipCode).subscribe(
+        (cepReturn) => this.fillAddressConsult(cepReturn, userForm),
+        (erro) => this.errors.push(erro)
+      )
     );
   }
 
@@ -128,9 +139,11 @@ export class UserBaseComponent extends FormBaseComponent {
     );
 
     if (toast) {
-      toast.onHidden.subscribe(() => {
-        this.router.navigate(['/users/list']);
-      });
+      this.subscriptions.add(
+        toast.onHidden.subscribe(() => {
+          this.router.navigate(['/users/list']);
+        })
+      );
     }
   }
 

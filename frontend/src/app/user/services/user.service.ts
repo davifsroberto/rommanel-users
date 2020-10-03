@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { NgxIndexedDBService } from 'ngx-indexed-db';
@@ -11,7 +11,9 @@ import { Address, CepConsult } from '../models/address.model';
 import { User } from '../models/user.model';
 
 @Injectable()
-export class UserService extends BaseService {
+export class UserService extends BaseService implements OnDestroy {
+  private subscriptions = new Subscription();
+
   constructor(
     private http: HttpClient,
     protected dbService: NgxIndexedDBService
@@ -21,69 +23,58 @@ export class UserService extends BaseService {
     this.listenStatusConection();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   getUsers(): Observable<User[]> {
     return this.http
       .get<User[]>(`${this.UrlServiceV1}users`)
       .pipe(catchError(super.serviceError));
   }
 
-  getUser(id: string): Observable<User> {
+  getUser(_id: string): Observable<User> {
     return this.http
-      .get<User>(`${this.UrlServiceV1}users/${id}`, super.GetHeaderJson())
+      .get<User>(`${this.UrlServiceV1}users/${_id}`, super.GetHeaderJson())
       .pipe(catchError(super.serviceError));
-  }
-
-  private postUserApi(user: User): any {
-    return this.http
-      .post(`${this.UrlServiceV1}users`, user, this.GetHeaderJson())
-      .pipe(
-        map((userResp: User) => {
-          user.address.userId = userResp.id;
-          user.id = userResp.id;
-          // TODO: Remover esse "postAddress"
-          this.postAddress(user.address);
-        })
-      );
-  }
-
-  postAddress(address: Address): void {
-    this.http
-      .post(
-        `${this.UrlServiceV1}users/${address.userId}/address`,
-        address,
-        this.GetHeaderJson()
-      )
-      .subscribe();
   }
 
   putUser(user: User): Observable<User> {
     return this.http
-      .put(`${this.UrlServiceV1}users/${user.id}`, user, this.GetHeaderJson())
+      .put(`${this.UrlServiceV1}users/${user._id}`, user, this.GetHeaderJson())
       .pipe(map(super.extractData), catchError(super.serviceError));
   }
 
   putAddress(address: Address): Observable<Address> {
     return this.http
       .put(
-        `${this.UrlServiceV1}users/${address.userId}/address/${address.id}`,
+        `${this.UrlServiceV1}users/${address.userId}/address/${address._id}`,
         address,
         this.GetHeaderJson()
       )
       .pipe(map(super.extractData), catchError(super.serviceError));
   }
 
-  deleteUser(id: string): Observable<User> {
+  deleteUser(_id: string): Observable<User> {
     return this.http
-      .delete(`${this.UrlServiceV1}users/${id}`, this.GetHeaderJson())
+      .delete(`${this.UrlServiceV1}users/${_id}`, this.GetHeaderJson())
       .pipe(map(super.extractData), catchError(super.serviceError));
   }
 
-  private postUserIdbToApi(): any {
-    this.dbService.getAll('users').subscribe((users) => {
-      users.map((user) => {
-        this.postUserApi(user).subscribe();
-      }, this.dbService.clear('users').subscribe());
-    });
+  private postUserIdbToApi(): void {
+    this.subscriptions.add(
+      this.dbService.getAll('users').subscribe((users) => {
+        users.map((user) => {
+          this.postUserApi(user).subscribe();
+        }, this.dbService.clear('users').subscribe());
+      })
+    );
+  }
+
+  private postUserApi(user: User): Observable<User> {
+    return this.http
+      .post(`${this.UrlServiceV1}users`, user, this.GetHeaderJson())
+      .pipe(map(super.extractData), catchError(super.serviceError));
   }
 
   postUser(user: User): Observable<User> {

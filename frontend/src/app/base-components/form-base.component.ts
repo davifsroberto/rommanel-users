@@ -1,7 +1,13 @@
-import { ElementRef } from '@angular/core';
+import {
+  ElementRef,
+  Inject,
+  Injectable,
+  Input,
+  OnDestroy,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { fromEvent, merge, Observable } from 'rxjs';
+import { fromEvent, merge, Observable, Subscription } from 'rxjs';
 
 import {
   GenericValidator,
@@ -9,12 +15,19 @@ import {
   ValidationMessages,
 } from '../utils/generic-form-validation';
 
-export abstract class FormBaseComponent {
+@Injectable()
+export abstract class FormBaseComponent implements OnDestroy {
+  protected subscriptions = new Subscription();
+
   displayMessage: DisplayMessage = {};
   genericValidator: GenericValidator;
   validationMessages: ValidationMessages;
 
   changesNotSave: boolean;
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 
   protected configMessagesValidationBase(
     validationMessages: ValidationMessages
@@ -32,9 +45,11 @@ export abstract class FormBaseComponent {
       fromEvent(formControl.nativeElement, 'blur')
     );
 
-    merge(...controlBlurs).subscribe(() => {
-      this.validationForm(formGroup);
-    });
+    this.subscriptions.add(
+      merge(...controlBlurs).subscribe(() => {
+        this.validationForm(formGroup);
+      })
+    );
   }
 
   protected validationForm(formGroup: FormGroup) {

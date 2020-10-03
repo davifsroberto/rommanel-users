@@ -13,7 +13,7 @@ import { User } from '../models/user.model';
   templateUrl: './info-user.component.html',
   styleUrls: ['./info-user.component.scss'],
 })
-export class InfoUserComponent {
+export class InfoUserComponent implements OnInit {
   img: string = environment.imagesLocal;
   keyMpas: string = environment.keyMaps;
   MASKS = utilsBr.MASKS;

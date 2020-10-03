@@ -5,6 +5,7 @@ import {
   ViewChildren,
   ElementRef,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -14,17 +15,19 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { Subscription } from 'rxjs';
+
 import { NgBrazilValidators } from 'ng-brazil';
 import { utilsBr } from 'js-brasil';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-import { StringUtils } from '@src/app/utils/string-utils';
+import { UserService } from '../services/user.service';
 import { User } from '../models/user.model';
 import { Address } from '../models/address.model';
-import { UserService } from '../services/user.service';
 import { UserBaseComponent } from '../user-form.base.component';
+import { StringUtils } from '@src/app/utils/string-utils';
 
 @Component({
   selector: 'app-edit',
@@ -33,7 +36,9 @@ import { UserBaseComponent } from '../user-form.base.component';
 })
 export class EditComponent
   extends UserBaseComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, AfterViewInit, OnDestroy {
+  protected subscriptions = new Subscription();
+
   @ViewChildren(FormControlName, { read: ElementRef })
   formInputElements: ElementRef[];
 
@@ -61,10 +66,14 @@ export class EditComponent
     super(userService, router, toastr);
 
     this.user = this.route.snapshot.data.user;
-    this.addressUser = this.route.snapshot.data.user.address[0];
+    this.addressUser = this.route.snapshot.data.user.address;
   }
 
-  ngOnInit() {
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  ngOnInit(): void {
     this.spinner.show();
 
     this.userForm = this.fb.group({
@@ -97,7 +106,7 @@ export class EditComponent
 
   fillForm() {
     this.userForm.patchValue({
-      id: this.user.id,
+      id: this.user._id,
       name: this.user.name,
       email: this.user.email,
       document: this.user.document,
@@ -106,7 +115,7 @@ export class EditComponent
     });
 
     this.addressForm.patchValue({
-      id: this.addressUser.id,
+      id: this.addressUser._id,
       street: this.addressUser.street,
       number: this.addressUser.number,
       additionalDetails: this.addressUser.additionalDetails,
@@ -133,13 +142,15 @@ export class EditComponent
       this.user.document = StringUtils.justNumbers(this.user.document);
       this.user.birthDate = StringUtils.formatDate(this.user.birthDate);
 
-      this.userService.putUser(this.user).subscribe(
-        (sucess) => {
-          super.processSuccess(this.userForm, 'atualizado', sucess);
-        },
-        (fail) => {
-          super.processaFail(fail);
-        }
+      this.subscriptions.add(
+        this.userService.putUser(this.user).subscribe(
+          (sucess) => {
+            super.processSuccess(this.userForm, 'atualizado', sucess);
+          },
+          (fail) => {
+            super.processaFail(fail);
+          }
+        )
       );
     }
   }
@@ -149,14 +160,16 @@ export class EditComponent
       this.address = Object.assign({}, this.address, this.addressForm.value);
 
       this.address.zipCode = StringUtils.justNumbers(this.address.zipCode);
-      this.address.userId = this.user.id;
+      this.address.userId = this.user._id;
 
-      this.userService.putAddress(this.address).subscribe(
-        () => this.processSuccessAddress(this.address),
+      this.subscriptions.add(
+        this.userService.putAddress(this.address).subscribe(
+          () => this.processSuccessAddress(this.address),
 
-        (fail) => {
-          this.processaFail(fail);
-        }
+          (fail) => {
+            this.processaFail(fail);
+          }
+        )
       );
     }
   }

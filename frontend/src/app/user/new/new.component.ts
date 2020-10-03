@@ -1,21 +1,23 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   AfterViewInit,
   ChangeDetectorRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { Subscription } from 'rxjs';
+
 import { ToastrService } from 'ngx-toastr';
 import { NgBrazilValidators } from 'ng-brazil';
 import { utilsBr } from 'js-brasil';
 
 import { UserService } from '../services/user.service';
-
-import { StringUtils } from '@src/app/utils/string-utils';
 import { UserBaseComponent } from '../user-form.base.component';
 import { User } from '../models/user.model';
+import { StringUtils } from '@src/app/utils/string-utils';
 
 @Component({
   selector: 'app-new',
@@ -23,7 +25,9 @@ import { User } from '../models/user.model';
 })
 export class NewComponent
   extends UserBaseComponent
-  implements OnInit, AfterViewInit {
+  implements OnInit, OnDestroy, AfterViewInit {
+  protected subscriptions = new Subscription();
+
   userForm: FormGroup;
   user: User = new User();
 
@@ -40,7 +44,7 @@ export class NewComponent
     super(userService, router, toastr);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userForm = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -67,6 +71,10 @@ export class NewComponent
     this.cdref.detectChanges();
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
   getZipCode(zipCode: string) {
     return super.getZipCode(zipCode, this.userForm);
   }
@@ -74,8 +82,6 @@ export class NewComponent
   newUser() {
     if (this.userForm.dirty && this.userForm.valid) {
       this.user = Object.assign({}, this.user, this.userForm.value);
-
-      console.log(this.user);
 
       this.formResult = JSON.stringify(this.user);
 
@@ -85,13 +91,15 @@ export class NewComponent
       this.user.document = StringUtils.justNumbers(this.user.document);
       this.user.birthDate = StringUtils.formatDate(this.user.birthDate);
 
-      this.userService.postUser(this.user).subscribe(
-        (sucess) => {
-          super.processSuccess(this.userForm, 'cadastrado', sucess);
-        },
-        (fail) => {
-          super.processaFail(fail);
-        }
+      this.subscriptions.add(
+        this.userService.postUser(this.user).subscribe(
+          (sucess) => {
+            super.processSuccess(this.userForm, 'cadastrado', sucess);
+          },
+          (fail) => {
+            super.processaFail(fail);
+          }
+        )
       );
     }
   }

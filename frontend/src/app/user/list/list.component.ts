@@ -1,31 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { User } from '@app/user/models/user.model';
+import { Subscription } from 'rxjs';
+
 import { NgxSpinnerService } from 'ngx-spinner';
+
 import { UserService } from '../services/user.service';
+import { User } from '@app/user/models/user.model';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
+  private subscriptions = new Subscription();
+
   public users: User[];
-  errorMessage: string;
 
   constructor(
     private userService: UserService,
     private spinner: NgxSpinnerService
   ) {}
 
-  listUsers(): void {
-    this.userService.getUsers().subscribe(
-      (users) => (this.users = users),
-      (error) => this.errorMessage
-    );
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.spinner.show();
 
     this.listUsers();
@@ -33,5 +34,11 @@ export class ListComponent implements OnInit {
     setTimeout(() => {
       this.spinner.hide();
     }, 750);
+  }
+
+  listUsers(): void {
+    this.subscriptions.add(
+      this.userService.getUsers().subscribe((users) => (this.users = users))
+    );
   }
 }
