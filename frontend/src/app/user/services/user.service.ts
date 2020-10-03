@@ -40,6 +40,7 @@ export class UserService extends BaseService {
         map((userResp: User) => {
           user.address.userId = userResp.id;
           user.id = userResp.id;
+          // TODO: Remover esse "postAddress"
           this.postAddress(user.address);
         })
       );

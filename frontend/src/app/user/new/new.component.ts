@@ -73,7 +73,10 @@ export class NewComponent
 
   newUser() {
     if (this.userForm.dirty && this.userForm.valid) {
+
       this.user = Object.assign({}, this.user, this.userForm.value);
+      
+      console.log(this.user);
 
       this.formResult = JSON.stringify(this.user);
 
@@ -82,6 +85,7 @@ export class NewComponent
       );
       this.user.document = StringUtils.justNumbers(this.user.document);
       this.user.birthDate = StringUtils.formatDate(this.user.birthDate);
+
 
       this.userService.postUser(this.user).subscribe(
         (sucess) => {
