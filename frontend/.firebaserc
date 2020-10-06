@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "romanel-users": {
+      "hosting": {
+        "rommanel-users": [
+          "romanel-users"
+        ]
+      }
+    }
+  }
+}
